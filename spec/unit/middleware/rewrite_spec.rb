@@ -79,9 +79,7 @@ describe Travis::GuestApi::App::Middleware::Rewrite do
       request = {
         stepStack: ['test_case_is_second_last','test_step_is_last'],
         result: 'a big failure',
-        classname: 'test_class', # classname = testcase
-        position: 555,
-        class_position: 666
+        classname: 'test_class' # classname = testcase
       }
 
       post '/api/v1/machines/steps',
@@ -95,8 +93,6 @@ describe Travis::GuestApi::App::Middleware::Rewrite do
       request = {
         stepStack: [],
         result: 'a big failure',
-        position: 555,
-        class_position: 666,
       }
 
       post '/api/v1/machines/steps',
@@ -123,8 +119,6 @@ describe Travis::GuestApi::App::Middleware::Rewrite do
       request = {
         stepStack: ['test_case_is_second_last','test_step_is_last'],
         result: 'a big success',
-        position: 555,
-        class_position: 666,
       }
 
       expect(reporter).to receive(:send_tresult)
@@ -140,9 +134,7 @@ describe Travis::GuestApi::App::Middleware::Rewrite do
     it 'rewrites test case to classname' do
       request = {
         stepStack: ['test_case_is_second_last','test_step_is_last'],
-        result: 'a big success',
-        position: 555,
-        class_position: 666,
+        result: 'a big success'
       }
 
       expect(reporter).to receive(:send_tresult)
