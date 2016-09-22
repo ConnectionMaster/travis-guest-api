@@ -45,63 +45,6 @@ describe Travis::GuestAPI::Cache do
     end
   end
 
-  describe '#get_added_step_metrics' do
-    it 'searches for given job' do
-      job_id = 55
-      expect(cache).to receive(:get_job) do
-        double(
-          'fake record',
-          values: {}
-        )
-      end
-
-      expect do
-        cache.get_added_step_metrics(job_id, "foo_bar_baz")
-      end.to raise_error (Travis::GuestAPI::Cache::AddStepException)
-    end
-
-    it 'returns correct step_position and class_position' do
-      job_id = 42
-      sample_record = {
-        'classname' => 'foo_bar_baz',
-        'position' => 10,
-        'class_position' => 11
-      }
-
-      cache.set job_id, 'some uuid', sample_record
-      metrics = cache.get_added_step_metrics(job_id, 'foo_bar_baz')
-      expect(metrics).to include('step_position' => 11, 'class_position' => 11)
-    end
-
-    it 'raises exception when class is not found in cache' do
-      job_id = 42
-      sample_record = {
-        'classname' => 'foo_bar_baz',
-        'position' => 10,
-        'class_position' => 11
-      }
-
-      cache.set job_id, 'some uuid', sample_record
-      expect do
-        cache.get_added_step_metrics(job_id, "foo_bar_baz_qux")
-      end.to raise_error (Travis::GuestAPI::Cache::AddStepException)
-    end
-
-    it 'raises exception when class_position is not found in cache' do
-      job_id = 42
-      sample_record = {
-        'classname' => 'foo_bar_baz',
-        'position' => 10,
-        'class_position_' => 11
-      }
-
-      cache.set job_id, 'some uuid', sample_record
-      expect do
-        cache.get_added_step_metrics(job_id, "foo_bar_baz")
-      end.to raise_error (Travis::GuestAPI::Cache::AddStepException)
-    end
-  end
-
   describe '#set_multiple' do
     it 'persists given value' do
       job_id = 42

@@ -27,9 +27,7 @@ module Travis::GuestApi
           'job_id'    => 1,
           'name'      => 'stepName1',
           'classname' => 'caseName1',
-          'result'    => 'success',
-          'position'  => 10,
-          'class_position' => 11
+          'result'    => 'success'
         }
       }
 
@@ -39,8 +37,6 @@ module Travis::GuestApi
           'classname' => 'caseName2',
           'result'    => 'success',
           'test_data' => { 'any_content' => 'xxx' },
-          'position'  => 10,
-          'class_position' => 11,
           'duration' => 56
         }
       }
@@ -127,55 +123,6 @@ module Travis::GuestApi
           end
 
         end
-
-        context 'add_step functionality' do
-          let(:testcase_addstep) {
-            {
-              'name'      => 'stepName2',
-              'classname' => 'caseName2',
-              'result'    => 'success',
-              'test_data' => { 'any_content' => 'xxx' },
-              'duration' => 56
-            }
-          }
-          let(:cache) {
-            Travis::GuestAPI::Cache.new 100 , Travis.config.redis
-          }
-          let(:sample_record) {
-            {
-              'name' => 'foo',
-              'classname' => 'caseName2',
-              'position' => 10,
-              'class_position' => 11
-            }
-          }
-
-          before :each do
-            @redis = Redis.new Travis.config.redis
-            @redis.flushdb
-          end
-
-          it 'responds with 422 when redis cache is empty' do
-            response = post '/api/v2/steps', testcase_addstep.to_json, "CONTENT_TYPE" => "application/json"
-            expect(response.status).to eq(422)
-          end
-
-          it 'responds with 200 when adding into existing class' do
-            cache.set 1, 1, sample_record
-            expect(reporter).to receive(:send_tresult)
-            response = post '/api/v2/steps', testcase_addstep.to_json, "CONTENT_TYPE" => "application/json"
-            expect(response.status).to eq(200)
-          end
-
-          it 'expands data by a flag representing added step when adding into existing class' do
-            cache.set 1, 1, sample_record
-            expect(reporter).to receive(:send_tresult) { |job_id, arg|
-              expect(arg.first).to include('added_step' => true)
-            }
-
-            post '/api/v2/steps', testcase_addstep.to_json, "CONTENT_TYPE" => "application/json"
-          end
-        end
       end
 
       describe 'POST /jobs/:job_id/steps' do
@@ -249,20 +196,10 @@ module Travis::GuestApi
 
         context 'bulk update' do
           let(:testcase1) {
-            {
-              'name' => 'stepName1',
-              'classname' =>  'testCaseName1',
-              'position'  => 10,
-              'class_position' => 11
-            }
+            { 'name' => 'stepName1', 'classname' =>  'testCaseName1' }
           }
           let(:testcase2) {
-            {
-              'name' => 'stepName2',
-              'classname' =>  'testCaseName2',
-              'position'  => 10,
-              'class_position' => 11
-            }
+            { 'name' => 'stepName2', 'classname' =>  'testCaseName2' }
           }
           it 'updates several steps' do
             step_uuid1 = create_step(testcase1)
@@ -304,9 +241,7 @@ module Travis::GuestApi
               'job_id'    => 1,
               'name'      => 'stepName1',
               'classname' => 'caseName1',
-              'result'    => 'created',
-              'position'  => 10,
-              'class_position' => 11
+              'result'    => 'created'
             }
           }
 
@@ -319,8 +254,6 @@ module Travis::GuestApi
               'name'      => 'stepName1',
               'classname' => 'caseName1',
               'number'  => 1,
-              'position'  => 10,
-              'class_position' => 11
             }
           end
 

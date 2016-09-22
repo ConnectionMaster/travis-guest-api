@@ -6,9 +6,6 @@ module Travis::GuestAPI
   # they can be  provided in route GET steps/:uuid
   # for backward compatibility.
   class Cache
-    class AddStepException < Exception
-    end
-
     def initialize(max_job_time = 24.hours, config = {})
       @max_job_time = max_job_time
       @mutex = Mutex.new
@@ -61,27 +58,6 @@ module Travis::GuestAPI
       end
 
       return passed ? 'passed' : 'failed'
-    end
-
-    def get_added_step_metrics(job_id, class_name)
-      job_record = get_job(job_id)
-      raise AddStepException,
-        "Test case #{class_name} could not be found for job id: #{job_id}" if job_record.nil?
-      items = job_record.values.select { |obj| obj['classname'] == class_name }
-
-      class_index = items.map do |obj|
-        obj['class_position'].nil? ? nil : obj['class_position'].to_i
-      end.compact.max
-
-      raise AddStepException, "Invalid class_position in cache." if class_index.nil?
-
-      step_index = items.map do |obj|
-        obj['position'].to_i if obj['class_position'] && obj['class_position'] == class_index
-      end.compact.max
-
-      raise AddStepException, "Invalid class_name: #{class_name}" if items.count < 1
-
-      { 'step_position' => step_index + 1, 'class_position' => class_index }
     end
 
     def exists?(job_id)
