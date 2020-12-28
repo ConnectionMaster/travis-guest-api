@@ -102,7 +102,7 @@ GEM
     racksh (1.0.0)
       rack (>= 1.0)
       rack-test (>= 0.5)
-    rake (11.1.1)
+    rake (13.0.3)
     redis (3.2.2)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
