@@ -91,7 +91,7 @@ GEM
       yard (~> 0.8)
     puma (3.0.0)
     puma (3.0.0-java)
-    rack (1.6.4)
+    rack (1.6.13)
     rack-contrib (1.4.0)
       git-version-bump (~> 0.15)
       rack (~> 1.4)
