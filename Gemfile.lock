@@ -74,6 +74,8 @@ GEM
     minitest (5.8.4)
     multi_json (1.11.2)
     multipart-post (2.0.0)
+    nio4r (2.5.4)
+    nio4r (2.5.4-java)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     nokogiri (1.6.7.2-java)
@@ -89,8 +91,10 @@ GEM
     pry-doc (0.6.0)
       pry (~> 0.9)
       yard (~> 0.8)
-    puma (3.0.0)
-    puma (3.0.0-java)
+    puma (5.1.1)
+      nio4r (~> 2.0)
+    puma (5.1.1-java)
+      nio4r (~> 2.0)
     rack (1.6.4)
     rack-contrib (1.4.0)
       git-version-bump (~> 0.15)
@@ -165,7 +169,7 @@ DEPENDENCIES
   nokogiri
   pry
   pry-doc (~> 0.6.0)
-  puma (= 3.0.0)
+  puma (= 5.1.1)
   rack-contrib
   rack-parser!
   racksh
