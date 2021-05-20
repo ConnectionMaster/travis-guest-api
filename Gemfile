@@ -46,5 +46,5 @@ platform :jruby do
   gem 'march_hare',     '~> 2.7.0'
 end
 
-gem 'puma', '3.0.0'
+gem 'puma', '5.3.1'
 
